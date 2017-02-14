@@ -1,0 +1,9 @@
+<form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+  <input [(ngModel)]="item.name" name="name" placeholder="Name"/>
+  <input [(ngModel)]="item.description" name="description" placeholder="Description" />
+  <input type="submit"
+         class="btn btn-primary"
+         value="Save"
+         [disabled]="!itemForm.form.valid"/>
+  <button class="btn btn-danger" routerLink="">Cancel</button>
+</form>
