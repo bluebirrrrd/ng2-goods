@@ -13,9 +13,11 @@
       <td>{{item.description}}</td>
       <td>
         <button class="btn btn-primary" (click)="goToEdit(item.id)">Update</button>
-        <button class="btn btn-danger" (click)="deleteItem(item.id)">Delete</button>
+        <button class="btn btn-danger" (click)="modal.showModal(item)">Delete</button>
       </td>
     </tr>
   </thead>
 </table>
 <button class="btn btn-lg btn-primary" routerLink="/goods/new">Create</button>
+
+<app-modal #modal (onDelete)="deleteItem($event)"></app-modal>

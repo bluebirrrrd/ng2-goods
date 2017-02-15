@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Item } from '../item';
 import { ItemService } from '../item.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-item-table',
@@ -15,6 +16,7 @@ export class ItemTableComponent implements OnInit {
       private router: Router,
       private itemService: ItemService) { }
 
+  @ViewChild(ModalComponent) modal: ModalComponent;
   goods: Item[];
 
   ngOnInit() {
