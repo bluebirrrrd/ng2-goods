@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ItemEditComponent } from './item-edit.component';
-import { Item } from './item';
+import { Item } from '../item';
 
 describe('ItemEditComponent', () => {
   let component: ItemEditComponent;

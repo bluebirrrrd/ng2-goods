@@ -8,6 +8,8 @@ import { ItemTableComponent } from './item-table/item-table.component';
 import { ItemEditComponent } from './item-edit/item-edit.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ItemService } from './item.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,9 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+      ItemService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

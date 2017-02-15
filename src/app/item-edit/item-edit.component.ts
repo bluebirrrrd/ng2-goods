@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from './item';
+import { Item } from '../item';
 
 @Component({
   selector: 'app-item-edit',
@@ -10,7 +10,7 @@ export class ItemEditComponent implements OnInit {
   item: Item;
 
   constructor() {
-      this.item = new Item();
+      this.item = new Item(0, '', '');
   }
 
   ngOnInit() {
