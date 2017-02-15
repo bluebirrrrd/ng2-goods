@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Item } from '../item';
-import { ItemService } from '../item.service';
+import { Item } from '../item/item';
+import { ItemService } from '../item/item.service';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({

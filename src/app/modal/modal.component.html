@@ -1,9 +1,18 @@
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myMediumModalLabel" aria-hidden="true">
-  <div *ngIf="item" class="modal-dialog modal-lg">
+<div bsModal
+     #lgModal="bs-modal" 
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div *ngIf="item" class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Are you sure you want to delete {{item.name}}?</h4>
-        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+        <button type="button"
+                class="close pull-right"
+                (click)="lgModal.hide()"
+                aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -11,8 +20,14 @@
         You won't be able to revert this action.
       </div>
       <div class="modal-footer">
-        <button class="btn btn-warning" (click)="delete(item.id)">Delete</button>
-        <button class="btn btn-primary" (click)="lgModal.hide()">Cancel</button>
+        <button class="btn btn-danger"
+                (click)="delete(item.id)">
+                Delete
+        </button>
+        <button class="btn btn-primary"
+                (click)="lgModal.hide()">
+                Cancel
+        </button>
       </div>
     </div>
   </div>

@@ -1,23 +1,40 @@
-<button class="btn btn-warning" (click)="fillWithMockData()">Fill with mock data</button>
-<table class="table">
-  <thead>
-    <tr>
-      <td>ID</td>
-      <td>Name</td>
-      <td>Description</td>
-      <td>Actions</td>
-    </tr>
-    <tr *ngFor="let item of goods">
-      <td>{{item.id}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.description}}</td>
-      <td>
-        <button class="btn btn-primary" (click)="goToEdit(item.id)">Update</button>
-        <button class="btn btn-danger" (click)="modal.showModal(item)">Delete</button>
-      </td>
-    </tr>
-  </thead>
-</table>
-<button class="btn btn-lg btn-primary" routerLink="/goods/new">Create</button>
+<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 text-center">
+  <span>
+    You can
+  </span>
+  <button class="btn btn-warning"
+         (click)="fillWithMockData()">
+         fill the table with mock data
+  </button>
+  <table class="table text-left">
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Actions</td>
+      </tr>
+      <tr *ngFor="let item of goods">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td>
+          <button class="btn btn-primary"
+                  (click)="goToEdit(item.id)">
+                  Update
+          </button>
+          <button class="btn btn-danger"
+                  (click)="modal.showModal(item)">
+                  Delete
+          </button>
+        </td>
+      </tr>
+    </thead>
+  </table>
+  <button class="btn btn-lg btn-primary"
+          routerLink="/goods/new">
+          Create new item
+  </button>
 
-<app-modal #modal (onDelete)="deleteItem($event)"></app-modal>
+  <app-modal #modal (onDelete)="deleteItem($event)"></app-modal>
+</div>

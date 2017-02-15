@@ -10,7 +10,7 @@ import { ItemTableComponent } from './item-table/item-table.component';
 import { ItemEditComponent } from './item-edit/item-edit.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { ItemService } from './item.service';
+import { ItemService } from './item/item.service';
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({

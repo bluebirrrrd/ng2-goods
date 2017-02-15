@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 
 import 'rxjs/add/operator/switchMap';
 
-import { Item } from '../item';
-import { ItemService } from '../item.service';
+import { Item } from '../item/item';
+import { ItemService } from '../item/item.service';
 
 @Component({
   selector: 'app-item-edit',
@@ -14,6 +14,7 @@ import { ItemService } from '../item.service';
 })
 export class ItemEditComponent implements OnInit {
   item: Item;
+  saved: boolean = false;
 
   constructor(
       private itemService: ItemService,
@@ -32,9 +33,17 @@ export class ItemEditComponent implements OnInit {
             .subscribe((item: Item) => this.item = item);
     }
 
+
+
     onSubmit() {
-        (this.item.id === 0) ? this.itemService.saveNewItem(this.item) :
-            this.itemService.updateItem(this.item);
+        ((this.item.id === 0) ? this.itemService.saveNewItem(this.item) :
+            this.itemService.updateItem(this.item)).then(() => {
+                this.saved = true;
+            });
+    }
+
+    onChange() {
+        this.saved = false;
     }
 
 

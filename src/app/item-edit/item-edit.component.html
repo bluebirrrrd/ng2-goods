@@ -1,9 +1,31 @@
-<form *ngIf="item" (ngSubmit)="onSubmit()" #itemForm="ngForm">
-  <input [(ngModel)]="item.name" name="name" placeholder="Name"/>
-  <input [(ngModel)]="item.description" name="description" placeholder="Description" />
-  <input type="submit"
-         class="btn btn-primary"
-         value="Save"
-         [disabled]="!itemForm.form.valid"/>
-  <button class="btn btn-danger" routerLink="/goods">Cancel</button>
-</form>
+<div  *ngIf="item" class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 text-center">
+
+  <h2>Update item info</h2>
+  <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input [(ngModel)]="item.name"
+             (ngModelChange)="onChange()"
+             name="name"
+             placeholder="Name"
+             class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input [(ngModel)]="item.description"
+             (ngModelChange)="onChange()"
+             name="description"
+             placeholder="Description"
+             class="form-control"/>
+    </div>
+    <input type="submit"
+           class="btn btn-primary"
+           value="Save"
+           [disabled]="!itemForm.form.valid"/>
+    <button class="btn btn-danger" routerLink="/goods">Cancel</button>
+  </form>
+  <div [hidden]="!saved" class="alert alert-warning">
+    Your data was saved.
+  </div>
+
+</div>
