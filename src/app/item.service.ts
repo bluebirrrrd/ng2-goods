@@ -7,57 +7,67 @@ const ITEMS_KEY = 'ng2-goods';
 @Injectable()
 export class ItemService {
 
-  constructor() { }
+    constructor() { }
 
-  getItems(): Item[] {
-      let allItems: Item[];
-      try {
-          const items = localStorage.getItem(ITEMS_KEY);
-          allItems = items ? JSON.parse(items) : [];
-      } catch (e) {
-          allItems = [];
-      }
-      return allItems;
-  }
+    getItems(): Promise<Item[]> {
+        let items: Item[];
+        try {
+            const unparsedItems = localStorage.getItem(ITEMS_KEY);
+            items = unparsedItems ? JSON.parse(unparsedItems) : [];
+        } catch (e) {
+            items = [];
+        }
+        return Promise.resolve(items);
+    }
 
-  saveItems(items: Item[]): void {
-      localStorage.setItem(ITEMS_KEY, JSON.stringify(items));
-  }
+    getItem(itemId: number): Promise<Item> {
+        return this.getItems().then(items =>
+            Promise.resolve(items.find(item => item.id === itemId))
+        );
+    }
 
-  updateItem(item: Item): void {
-      let items = this.getItems();
+    saveItems(items: Item[]): Promise<any> {
+            localStorage.setItem(ITEMS_KEY, JSON.stringify(items));
+            return Promise.resolve();
+    }
 
-      items.some((currItem, index, arr) => {
-          if (currItem.id !== item.id) {
-              return false;
-          }
+    updateItem(item: Item): Promise<any> {
+        return this.getItems().then(items => {
+            items.some((currItem, index, arr) => {
+                if (currItem.id !== item.id) {
+                    return false;
+                }
 
-          arr[index] = item;
-          return true;
-      });
+                arr[index] = item;
+                return true;
+            });
+            return this.saveItems(items);
+        });
+    }
 
-      this.saveItems(items);
-  }
+    saveNewItem(item: Item): Promise<any> {
+        item.id = Math.round(Math.random() * Date.now());
+        return this.getItems().then(items => {
+            items.push(item);
+            return this.saveItems(items);
+        });
+    }
 
-  createItem(item: Item): void {
-      let items = this.getItems();
-      items.push(item);
-      this.saveItems(items);
-  }
+    deleteItem(itemId: number): Promise<any> {
+        return this.getItems().then(items => {
+            items.some((item, index, arr) => {
+                if (item.id === itemId) {
+                    arr.splice(index, 1);
+                    return true;
+                }
+            });
+            return this.saveItems(items);
+        });
+    }
 
-  deleteItem(itemId: number): void {
-      let items = this.getItems();
-      items.some((item, index, arr) => {
-          if (item.id === itemId) {
-              arr.splice(index, 1);
-              return true;
-          }
-      });
-      this.saveItems(items);
-  }
-
-  fillWithMockData() {
-      localStorage.setItem(ITEMS_KEY, JSON.stringify(mockItems));
-  }
+    fillWithMockData(): Promise<any> {
+        localStorage.setItem(ITEMS_KEY, JSON.stringify(mockItems));
+        return Promise.resolve();
+    }
 
 }

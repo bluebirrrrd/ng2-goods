@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+<form *ngIf="item" (ngSubmit)="onSubmit()" #itemForm="ngForm">
   <input [(ngModel)]="item.name" name="name" placeholder="Name"/>
   <input [(ngModel)]="item.description" name="description" placeholder="Description" />
   <input type="submit"

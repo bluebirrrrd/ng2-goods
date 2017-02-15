@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Item } from '../item';
 import { ItemService } from '../item.service';
 
@@ -10,7 +11,9 @@ import { ItemService } from '../item.service';
 })
 export class ItemTableComponent implements OnInit {
 
-  constructor(private itemService: ItemService) { }
+  constructor(
+      private router: Router,
+      private itemService: ItemService) { }
 
   goods: Item[];
 
@@ -19,17 +22,25 @@ export class ItemTableComponent implements OnInit {
   }
 
   fillWithMockData(): void {
-      this.itemService.fillWithMockData();
-      this.getItems();
+      this.itemService.fillWithMockData().then(() => {
+          this.getItems();
+      });
   }
 
   getItems(): void {
-      this.goods = this.itemService.getItems();
+      this.itemService.getItems().then((res) => {
+          this.goods = res;
+      });
   }
 
-  deleteItem(itemId) {
-      this.itemService.deleteItem(itemId);
-      this.getItems();
+  deleteItem(itemId: number) {
+      this.itemService.deleteItem(itemId).then(() => {
+          this.getItems();
+      });
+  }
+
+  goToEdit(itemId:number) {
+      this.router.navigate(['/goods', itemId]);
   }
 
 }

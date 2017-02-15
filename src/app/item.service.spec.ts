@@ -13,6 +13,8 @@ describe('ItemService', () => {
     TestBed.configureTestingModule({
       providers: [ItemService]
     });
+
+     localStorage.setItem(ITEMS_KEY, JSON.stringify(mockItems));
   });
 
   afterEach(() => {
@@ -20,7 +22,60 @@ describe('ItemService', () => {
   });
 
   it('should exist', inject([ItemService], (service: ItemService) => {
-    expect(service).toBeTruthy();
+      expect(service).toBeTruthy();
+  }));
+
+  it('should get all items', inject([ItemService], (service: ItemService) => {
+      let mockStringifiedItems = JSON.stringify(mockItems);
+
+      service.getItems().then(j => JSON.stringify(j)).then(res => {
+          expect(res).toEqual(mockStringifiedItems);
+      });
+  }));
+
+  it('should get one item', inject([ItemService], (service: ItemService) => {
+      service.getItem(2).then(j => JSON.stringify(j)).then(res => {
+          expect(res).toEqual(JSON.stringify(mockItems[1]));
+      })
+  }));
+
+  it('should update item', inject([ItemService], (service: ItemService) => {
+      let updatedItem, result;
+
+      updatedItem = mockItems[2];
+      updatedItem.name = 'Sprite';
+
+      service.updateItem(updatedItem).then(() => {
+          result = JSON.parse(localStorage.getItem(ITEMS_KEY))[2];
+          expect(result.name).toEqual(updatedItem.name);
+      });
+  }));
+
+  it('should remove an item', inject([ItemService], (service: itemService) => {
+      let itemId = mockItems[2].id;
+      service.deleteItem(itemId).then(() => {
+          let resultItems = JSON.parse(localStorage.getItem(ITEMS_KEY));
+
+          expect(resultItems.some(item => item.id === itemId)).toBeFalsy();
+      });
+  }));
+
+  it('should save new item', inject([ItemService], (service: ItemService) => {
+      let newItem = new Item(0, 'Schweppes', 'The tonic for your gin');
+
+      service.saveNewItem(newItem).then(() => {
+          let result = JSON.parse(localStorage.getItem(ITEMS_KEY)).pop();
+          expect(result.name).toEqual(newItem.name);
+      });
+  }));
+
+
+  it('should save items', inject([ItemService], (service: ItemService, done) => {
+      let expectedItems = JSON.stringify(mockItems);
+      service.saveItems(mockItems).then(() => {
+          console.log(localStorage.getItem(ITEMS_KEY));
+          expect(localStorage.getItem(ITEMS_KEY)).toEqual(expectedItems);
+      }).finally(done);
   }));
 
   it('should fill with mock data', inject([ItemService], (service: ItemService) => {
@@ -28,44 +83,5 @@ describe('ItemService', () => {
       service.fillWithMockData();
 
       expect(localStorage.getItem(ITEMS_KEY)).toEqual(expectedItems);
-  }));
-
-  it('should save items', inject([ItemService], (service: ItemService) => {
-      let expectedItems = JSON.stringify(mockItems);
-      service.saveItems(mockItems);
-
-      expect(localStorage.getItem(ITEMS_KEY)).toEqual(expectedItems);
-  }));
-
-  it('should update item', inject([ItemService], (service: ItemService) => {
-      let updatedItem, result;
-      localStorage.setItem(ITEMS_KEY, JSON.stringify(mockItems));
-
-      updatedItem = mockItems[2];
-      updatedItem.name = 'Sprite';
-
-      service.updateItem(updatedItem);
-      result = JSON.parse(localStorage.getItem(ITEMS_KEY))[2];
-
-      expect(result.name).toEqual(updatedItem.name);
-  }));
-
-  it('should save new item', inject([ItemService], (service: ItemService) => {
-      let newItem = new Item(0, 'Schweppes', 'The tonic for your gin');
-      service.createItem(newItem);
-
-      let result = JSON.parse(localStorage.getItem(ITEMS_KEY)).pop();
-
-      expect(result.name).toEqual(newItem.name);
-  }));
-
-  it('should remove an item', inject([ItemService], (service: itemService) => {
-      localStorage.setItem(ITEMS_KEY, JSON.stringify(mockItems));
-
-      let itemId = mockItems[2].id;
-      service.deleteItem(itemId);
-
-      let resultItems = JSON.parse(localStorage.getItem(ITEMS_KEY));
-      expect(resultItems.some(item => item.id === itemId)).toBeFalsy();
   }));
 });
